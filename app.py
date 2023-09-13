@@ -49,7 +49,7 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password = request.form['password'].encode('utf-8')  # Encode password
 
         conn = get_db_connection()
         cur = conn.cursor()
@@ -58,8 +58,7 @@ def login():
 
         if user is not None:
             stored_username = user['username']
-            stored_password = user['password']
-            user_role = 'user'  # Default role is 'user'
+            stored_password = user['password'].encode('utf-8')  # Decode stored_password
 
             # Check if the user is a doctor
             cur.execute('SELECT * FROM doctor WHERE email = ?', (user['email'],))
@@ -67,8 +66,10 @@ def login():
 
             if doctor is not None:
                 user_role = 'doctor'
+            else:
+                user_role = 'user'
 
-            if bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
+            if bcrypt.checkpw(password, stored_password):  # Use password and stored_password as bytes
                 session['username'] = stored_username
                 session['role'] = user_role  # Store user's role in session
 
@@ -85,6 +86,7 @@ def login():
             return render_template('login.html', error=error)
 
     return render_template('login.html')
+
 
 
 @app.route('/signup', methods=['GET', 'POST'])
