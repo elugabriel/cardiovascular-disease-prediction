@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Apriori</title>
+  <title>cardiovascular</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
- 
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style1.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style2.css') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -13,7 +14,7 @@
   <div class="navigation">
     <ul>
       <li><a href="{{ url_for('login') }}">Home</a></li>
-     
+      
     </ul>
   </div>
   <br>
@@ -50,33 +51,34 @@
       </div>
 
       <div class="form-group mb-3">
-        <label style="margin-right: 40px;" for="lastname" class="form-label">Address: </label>
+        <label style="margin-right: 20px;" for="password" class="form-label">Password:</label>
+        <input style="width: 600px;" type="password" name="password" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
+      </div>
+
+      <div class="form-group mb-3">
+        <label style="margin-right: 25px;" for="ssname" class="form-label">Phone: </label>
+        <input style="width: 600px;" type="text" name="phone" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
+        <!-- ss stands for supermarket/school  -->
+      </div>
+
+      <div class="form-group mb-3">
+        <label style="margin-right: 20px;" for="ssname" class="form-label">Address: </label>
         <input style="width: 600px;" type="text" name="address" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
+        <!-- ss stands for supermarket/school  -->
       </div>
      
       <div class="form-group mb-3">
       </div>
 
+     
       <div class="form-group mb-3">
-        <label style="margin-right: 15px;" for="ssname" class="form-label">Organization: </label>
-        <input style="width: 600px;" type="text" name="ssname" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
+        <label style="margin-right: 20px;" for="ssname" class="form-label">State: </label>
+        <input style="width: 600px;" type="text" name="state" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
         <!-- ss stands for supermarket/school  -->
       </div>
-
-      <div class="form-group mb-3">
-        <label style="margin-right: 40px;" for="purpose" class="form-label">Purpose: </label>
-              
-        <select style="width: 600px; height: 50px;" name="purpose" id="username">
-          <option value="education">Education</option>
-          <option value="business">Business</option>
-         
-        </select>
       </div>
 
-      <div class="form-group mb-3">
-        <label style="margin-right: 20px;" for="password" class="form-label">Password:</label>
-        <input style="width: 600px;" type="password" name="password" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
-      </div>
+     
       <div class="form-group text-center">
         <button type="submit" class="btn btn-primary" value="Sign Up">Sign Up</button>
         </div>

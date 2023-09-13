@@ -18,6 +18,7 @@ def create_tables():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         firstname TEXT,
         lastname TEXT,
+        username TEXT,
         email TEXT,
         password TEXT,
         phone TEXT,
@@ -54,14 +55,28 @@ def login():
         cur = conn.cursor()
         cur.execute('SELECT * FROM users WHERE username = ?', (username,))
         user = cur.fetchone()
-        
+
         if user is not None:
             stored_username = user['username']
             stored_password = user['password']
+            user_role = 'user'  # Default role is 'user'
+
+            # Check if the user is a doctor
+            cur.execute('SELECT * FROM doctor WHERE email = ?', (user['email'],))
+            doctor = cur.fetchone()
+
+            if doctor is not None:
+                user_role = 'doctor'
 
             if bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
                 session['username'] = stored_username
-                return redirect(url_for('main'))
+                session['role'] = user_role  # Store user's role in session
+
+                # Redirect to the appropriate dashboard based on the role
+                if user_role == 'user':
+                    return redirect(url_for('user_dashboard'))
+                elif user_role == 'doctor':
+                    return redirect(url_for('doctor_dashboard'))
             else:
                 error = 'Invalid password.'
                 return render_template('login.html', error=error)
@@ -71,6 +86,7 @@ def login():
 
     return render_template('login.html')
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -78,10 +94,12 @@ def signup():
         lastname = request.form['lastname']
         username = request.form['username']
         email = request.form['email']
-        address = request.form['address']
-        ssname = request.form['ssname']
-        purpose = request.form['purpose']
         password = request.form['password']
+        phone = request.form['phone']
+        address = request.form['address']
+        state = request.form['state']
+       
+        
 
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
@@ -95,8 +113,8 @@ def signup():
             error = 'Username already exists. Please choose a different username.'
             return render_template('signup.html', error=error)
         else:
-            cur.execute('INSERT INTO users (firstname, lastname, username, email, address, ssname, purpose, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                        (firstname, lastname, username, email, address, ssname, purpose, hashed_password))
+            cur.execute('INSERT INTO users (firstname, lastname, username, email, password, phone, address, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                        (firstname, lastname, username, email, hashed_password, phone, address, state))
             conn.commit()
             conn.close()
 
