@@ -50,6 +50,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')  # Encode password
+        role = request.form['role']  # Get the selected role
 
         conn = get_db_connection()
         cur = conn.cursor()
@@ -58,7 +59,7 @@ def login():
 
         if user is not None:
             stored_username = user['username']
-            stored_password = user['password'].encode('utf-8')  # Decode stored_password
+            stored_password_hash = user['password']  # Retrieve the hashed password from the database
 
             # Check if the user is a doctor
             cur.execute('SELECT * FROM doctor WHERE email = ?', (user['email'],))
@@ -69,15 +70,15 @@ def login():
             else:
                 user_role = 'user'
 
-            if bcrypt.checkpw(password, stored_password):  # Use password and stored_password as bytes
+            if bcrypt.checkpw(password, stored_password_hash):
                 session['username'] = stored_username
                 session['role'] = user_role  # Store user's role in session
 
-                # Redirect to the appropriate dashboard based on the role
-                if user_role == 'user':
-                    return redirect(url_for('user_dashboard'))
-                elif user_role == 'doctor':
+                # Redirect to the appropriate dashboard based on the role and selection
+                if role == 'yes':
                     return redirect(url_for('doctor_dashboard'))
+                else:
+                    return redirect(url_for('user_dashboard'))
             else:
                 error = 'Invalid password.'
                 return render_template('login.html', error=error)
@@ -86,6 +87,7 @@ def login():
             return render_template('login.html', error=error)
 
     return render_template('login.html')
+
 
 
 
@@ -124,7 +126,22 @@ def signup():
 
     return render_template('signup.html')
 
-# ... (other routes remain unchanged)
+@app.route('/user_dashboard')
+def user_dashboard():
+    # Add code to render the user dashboard template
+    return render_template('user_dashboard.html')
+
+@app.route('/doctor_dashboard')
+def doctor_dashboard():
+   
+    return render_template('doctor_dashboard.html')
+
+@app.route('/logout')
+def logout():
+    # Add code here to clear the user session or perform any other logout actions
+    session.clear()  # Clear the user's session
+    return redirect(url_for('login'))  # Redirect to the login page after logout
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
