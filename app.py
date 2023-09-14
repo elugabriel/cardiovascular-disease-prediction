@@ -41,6 +41,15 @@ def create_tables():
 
 create_tables()
 
+def get_user_data(username):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user_data = cur.fetchone()
+    conn.close()
+    return user_data
+
+
 @app.route('/')
 def index():
     return redirect(url_for('login'))
@@ -141,6 +150,14 @@ def logout():
     # Add code here to clear the user session or perform any other logout actions
     session.clear()  # Clear the user's session
     return redirect(url_for('login'))  # Redirect to the login page after logout
+
+@app.route('/profile')
+def profile():
+    # Fetch user information from the user table based on the current user's username
+    username = session.get('username')  # Assuming you have stored the username in the session
+    user_data = get_user_data(username)  # Replace this with your database query function
+
+    return render_template('profile.html', user_data=user_data)
 
 
 if __name__ == '__main__':

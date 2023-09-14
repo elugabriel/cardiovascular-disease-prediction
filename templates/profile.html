@@ -3,58 +3,53 @@
 <head>
     <title>User Dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_profile.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="dashboard-container">
         <div class="dashboard-content">
             <div class="user-profile">
                 <!-- <h1>Welcome </h1> <br> -->
-                <h1> {{ session['username'] | capitalize }} </h1>
+                <!-- <h1> {{ session['username'] | capitalize }} </h1> -->
                 <!-- <h1>Welcome {{ session['username'] | capitalize }}</h1> -->
             </div>
             <div class="dashboard-links">
                 <ul>
-                    <li><a href="#">Profile</a></li>
+                    <li><a href="{{ url_for('user_dashboard') }}">Dashboard</a></li>
                     <li><a href="#">Assessment Form</a></li>
                     <li><a href="#">Book Consultation</a></li>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
             </div>
         </div>
-        <div class="cardio-info">
-            <h2>Cardiovascular Disease Information</h2>
-            <p>
-                According to the CDC, heart disease is one of the leading causes of death for 
-                people of most races in the US (African Americans, American Indians and Alaska Natives, 
-                and white people). About half of all Americans (47%) have at least 1 of 3 key risk factors 
-                for heart disease: high blood pressure, high cholesterol, and smoking. Other key indicator 
-                include diabetic status, obesity (high BMI), not getting enough physical activity or drinking too much alcohol. 
-                Detecting and preventing the factors that have the greatest impact on heart disease is very important in healthcare. 
-                Computational developments, in turn, allow the application of machine learning methods to detect "patterns" 
-                from the data that can predict a patient's condition.
-            </p>
-            <h3>Common Types of CVD</h3>
-            <ul>
-                <li><strong>Coronary Artery Disease (CAD):</strong> CAD is the most prevalent type of CVD. It occurs when the coronary arteries
-                     that supply blood to the heart muscle become narrowed or blocked due to the buildup of fatty 
-                     deposits (atherosclerosis). This can lead to chest pain (angina) or heart attacks (myocardial infarctions).</li><br>
 
-                <li><strong>Hypertension (High Blood Pressure): </strong>Hypertension is a chronic condition in which the force of blood 
-                    against the artery walls is consistently too high. Over time, high blood pressure can damage the arteries
-                    and increase the risk of other cardiovascular complications such as heart attacks, stroke, and heart failure.</li><br>
+        <div class="profile-container">
+            <div class="profile-header">
+                <!-- <h1>Welcome {{ user_data.username | capitalize }}</h1> -->
+            </div>
+            <div class="profile-info">
+                <h2>User Information</h2>
+                <p><strong>First Name:</strong> {{ user_data.firstname }}</p>
+                <p><strong>Last Name:</strong> {{ user_data.lastname }}</p>
+                <p><strong>Username:</strong> {{ user_data.username }}</p>
+                <p><strong>Email:</strong> {{ user_data.email }}</p>
+                <p><strong>Phone:</strong> {{ user_data.phone }}</p>
+                <p><strong>Address:</strong> {{ user_data.address }}</p>
+                <p><strong>State:</strong> {{ user_data.state }}</p>
 
-                <li><strong>Heart Failure:</strong>Heart failure is a condition in which the heart cannot pump blood effectively to meet the body's needs. 
-                    It can develop as a result of various heart conditions, including CAD, high blood pressure, or heart valve disease.</li><br>
-
-                <li><strong>Peripheral Artery Disease (PAD):</strong>PAD involves the narrowing or blockage of arteries in the limbs, most commonly in the legs. 
-                    This condition is often associated with atherosclerosis and can lead to reduced blood flow, causing pain and muscle weakness.</li>
-            </ul>
-            <h3>Prevention and Lifestyle</h3>
-            <p>
-                You can reduce your risk of CVD by maintaining a healthy diet, regular exercise, not smoking, and managing stress.
-                It's also essential to monitor blood pressure, cholesterol levels, and seek medical advice for early detection.
-            </p>
+                <!-- Add more user information fields here -->
+            </div>
+            <div class="profile-links">
+                <ul>
+                    <div class="form-group text-center">
+                         <button class="btn btn-primary"><li><a href="#">Edit Profile</a></button> </li>
+                    </div>
+                    <!-- <li><a href="{{ url_for('logout') }}">Logout</a></li> -->
+                </ul>
+            </div>
         </div>
+        
         
     </div>
 </body>
