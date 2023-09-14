@@ -11,16 +11,11 @@
 </head>
 
 <body style="background-image: url('static/2.PNG');background-repeat: no-repeat; margin: 0;padding: 0;background-size: cover;background-position: center;">
-  <div class="navigation">
-    <ul>
-      <li><a href="{{ url_for('login') }}">Home</a></li>
-      
-    </ul>
-  </div>
-  <br>
+ 
+
   <div style="background-color: white;" class="container">
     <div class="form-group">
-    <h1 class="text-center">Create New Account</h1>
+    <h1 class="text-center">Modify Account</h1>
     <br>
   </div>
   <div style="background-color: white;" class="form-group" >
@@ -29,7 +24,7 @@
     {% endif %}
   </div>
     <div style="background-color: white;"  class="container">
-    <form method="POST" action="{{ url_for('signup') }}">
+    <form method="POST" action="{{ url_for('edit_profile') }}">
       <div class="form-group mb-3">
         <label style="margin-right: 20px;" for="firstname" class="form-label">First Name: </label>
         <input style="width: 600px;" type="text" name="firstname" required id="inputPassword5"  aria-labelledby="passwordHelpBlock" size="80">
@@ -80,12 +75,14 @@
 
      
       <div class="form-group text-center">
-        <button type="submit" class="btn btn-primary" value="Sign Up">Sign Up</button>
+        <button type="submit" class="btn btn-primary" value="Sign Up">Edit</button>
         </div>
   
    
     </form>
-   
+    <div class="form-group container">
+    <p> <a href="{{ url_for('user_dashboard') }}">Dashboard</a></p>
+  </div>
 </div>
   </div>
 </body>

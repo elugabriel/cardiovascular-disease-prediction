@@ -160,5 +160,41 @@ def profile():
     return render_template('profile.html', user_data=user_data)
 
 
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    if request.method == 'POST':
+        # Retrieve the edited user data from the form
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        phone = request.form['phone']
+        address = request.form['address']
+        state = request.form['state']
+
+        # Get the current user's ID from the session
+        user_id = session.get('user_id')
+
+        # Update the user's data in the database
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('UPDATE users SET firstname=?, lastname=?, email=?, phone=?, address=?, state=? WHERE id=?',
+                    (firstname, lastname, email, phone, address, state, user_id))
+        conn.commit()
+        conn.close()
+
+        # Redirect to the profile page after editing
+        return redirect(url_for('profile'))
+
+    # Fetch the user's current data for pre-filling the edit form
+    user_id = session.get('user_id')
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM users WHERE id = ?', (user_id,))
+    user_data = cur.fetchone()
+    conn.close()
+
+    return render_template('edit_profile.html', user_data=user_data)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
