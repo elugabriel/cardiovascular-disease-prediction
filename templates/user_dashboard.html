@@ -9,11 +9,12 @@
         <div class="dashboard-content">
             <div class="user-profile">
                 <!-- <h1>Welcome </h1> <br> -->
-                <h1> {{ session['username'] }}</h1>
+                <h1> {{ session['username'] | capitalize }} </h1>
+                <!-- <h1>Welcome {{ session['username'] | capitalize }}</h1> -->
             </div>
             <div class="dashboard-links">
                 <ul>
-                    <li><a href="#">Profile</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
                     <li><a href="#">Assessment Form</a></li>
                     <li><a href="#">Book Consultation</a></li>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
@@ -23,17 +24,30 @@
         <div class="cardio-info">
             <h2>Cardiovascular Disease Information</h2>
             <p>
-                Cardiovascular disease (CVD) is a class of diseases that involve the heart or blood vessels.
-                It is the leading cause of death worldwide. Common CVDs include coronary artery disease, heart failure,
-                valvular heart disease, and more. It's important to maintain a healthy lifestyle and regular checkups
-                to reduce the risk of CVD.
+                According to the CDC, heart disease is one of the leading causes of death for 
+                people of most races in the US (African Americans, American Indians and Alaska Natives, 
+                and white people). About half of all Americans (47%) have at least 1 of 3 key risk factors 
+                for heart disease: high blood pressure, high cholesterol, and smoking. Other key indicator 
+                include diabetic status, obesity (high BMI), not getting enough physical activity or drinking too much alcohol. 
+                Detecting and preventing the factors that have the greatest impact on heart disease is very important in healthcare. 
+                Computational developments, in turn, allow the application of machine learning methods to detect "patterns" 
+                from the data that can predict a patient's condition.
             </p>
             <h3>Common Types of CVD</h3>
             <ul>
-                <li>Coronary Artery Disease (CAD): A narrowing or blockage of the coronary arteries that can lead to heart attacks.</li>
-                <li>Heart Failure: When the heart is unable to pump blood effectively, leading to fluid buildup and other symptoms.</li>
-                <li>Stroke: A sudden loss of brain function due to a disruption in the blood supply to the brain.</li>
-                <li>Peripheral Artery Disease (PAD): Narrowing of the blood vessels outside the heart and brain, often in the legs.</li>
+                <li><strong>Coronary Artery Disease (CAD):</strong> CAD is the most prevalent type of CVD. It occurs when the coronary arteries
+                     that supply blood to the heart muscle become narrowed or blocked due to the buildup of fatty 
+                     deposits (atherosclerosis). This can lead to chest pain (angina) or heart attacks (myocardial infarctions).</li><br>
+
+                <li><strong>Hypertension (High Blood Pressure): </strong>Hypertension is a chronic condition in which the force of blood 
+                    against the artery walls is consistently too high. Over time, high blood pressure can damage the arteries
+                    and increase the risk of other cardiovascular complications such as heart attacks, stroke, and heart failure.</li><br>
+
+                <li><strong>Heart Failure:</strong>Heart failure is a condition in which the heart cannot pump blood effectively to meet the body's needs. 
+                    It can develop as a result of various heart conditions, including CAD, high blood pressure, or heart valve disease.</li><br>
+
+                <li><strong>Peripheral Artery Disease (PAD):</strong>PAD involves the narrowing or blockage of arteries in the limbs, most commonly in the legs. 
+                    This condition is often associated with atherosclerosis and can lead to reduced blood flow, causing pain and muscle weakness.</li>
             </ul>
             <h3>Prevention and Lifestyle</h3>
             <p>
