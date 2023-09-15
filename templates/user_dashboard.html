@@ -9,7 +9,7 @@
         <div class="dashboard-content">
             <div class="user-profile">
                 <!-- <h1>Welcome </h1> <br> -->
-                <h1> {{ session['username'] | capitalize }} </h1>
+                <h1>Welcome {{ session['username'] | capitalize }} </h1>
                 <!-- <h1>Welcome {{ session['username'] | capitalize }}</h1> -->
             </div>
             <div class="dashboard-links">
@@ -17,8 +17,8 @@
                     <li><a href="{{ url_for('profile') }}">Profile</a></li>
                     <li><a href="#">Assessment Form</a></li>
                     <li><a href="#">Book Consultation</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
+                <button><a href="{{ url_for('logout') }}" class="logout">Logout</a></button>
             </div>
         </div>
         <div class="cardio-info">

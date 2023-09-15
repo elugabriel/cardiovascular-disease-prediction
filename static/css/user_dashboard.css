@@ -1,22 +1,38 @@
 /* user_dashboard.css */
 
+/* Prevent overflow */
+html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 .dashboard-container {
     display: flex;
-    justify-content: space-between;
-    align-items:flex-start; /* Align items to the top */
     width: 100%;
-    max-width: 2000px; /* Adjust the max-width as needed */
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f4f4f4;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+}
 
+.dashboard-content {
+    flex: 1;
+    order: 1; 
+    background-color: #f0f0f0; 
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     
 }
 
 .user-profile h1 {
     font-size: 24px;
-    margin-top: 0;
+    color: #333; 
+    
+}
+
+.dashboard-links{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 200px;
 }
 
 .dashboard-links ul {
@@ -24,22 +40,45 @@
     padding: 0;
 }
 
-.dashboard-links li {
-    margin-bottom: 40px; /* Increase spacing between links */
+.dashboard-links ul li {
+    margin-bottom: 20px; 
 }
 
-.dashboard-links a {
+.dashboard-links ul a {
     text-decoration: none;
     font-size: 18px;
-    color: #333;
+    color: #555;
+    display: block; 
+    padding: 10px 10px;
+    width: max-content;
+    border-radius: 5px;
+    transition: .3s all ease-in-out;
+
 }
 
-.dashboard-links a:hover {
-    color: #007bff;
+.dashboard-links ul a:hover {
+    color: #f0f0f0;
+    background-color: #555;
+}
+
+button{
+    
+    background-color: #333333;
+    text-align: center;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button a{
+    text-decoration: none;
+    font-size: 18px;
+    color: rgb(247, 152, 152);
 }
 
 .cardio-info {
-    flex: 1;
+    flex: 5;
+    order: 2; 
     text-align: justify;
     padding: 20px;
     background-color: #fff;
@@ -48,6 +87,7 @@
 
 .cardio-info h2 {
     font-size: 24px;
+    color: #333; 
 }
 
 .cardio-info p {
@@ -55,5 +95,3 @@
     line-height: 1.5;
     color: #555;
 }
-
-

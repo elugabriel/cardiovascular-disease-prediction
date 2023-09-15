@@ -4,8 +4,12 @@ body {
 }
 
 .profile-container {
-    max-width: 2000px;
-    margin: 0 auto;
+    flex: 5;
+    order: 2; 
+    text-align: justify;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
  
 }
 
@@ -15,15 +19,20 @@ body {
 }
 
 .profile-info {
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     padding: 20px;
     border-radius: 5px;
     margin-left: 5px;
+    max-width: 800px;
 }
 
 .profile-info h2 {
     font-size: 20px;
     margin-bottom: 10px;
+}
+
+.profile-links{
+    max-width: 600px;
 }
 
 .profile-links ul {
