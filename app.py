@@ -82,6 +82,7 @@ def login():
             if bcrypt.checkpw(password, stored_password_hash):
                 session['username'] = stored_username
                 session['role'] = user_role  # Store user's role in session
+                session['user_id'] = user['id']
 
                 # Redirect to the appropriate dashboard based on the role and selection
                 if role == 'yes':
@@ -194,6 +195,27 @@ def edit_profile():
     conn.close()
 
     return render_template('edit_profile.html', user_data=user_data)
+
+@app.route('/assessment_form', methods=['GET', 'POST'])
+def assessment_form():
+    if request.method == 'GET':
+        # Render the assessment_form.html template
+        return render_template('assessment_form.html')
+    elif request.method == 'POST':
+        # Handle the form submission here
+        # You can access form data using request.form
+
+        # Get selected dropdown values
+        sex = request.form.get('sex')
+        smoking = request.form.get('smoking')
+        alcohol = request.form.get('alcohol')
+        stroke = request.form.get('stroke')
+
+        # Perform prediction or any other processing based on the selected values
+        # For example, you can use a machine learning model for prediction
+
+        # After processing, you can redirect or render a different template as needed
+        return redirect(url_for('user_dashboard'))
 
 
 if __name__ == '__main__':
