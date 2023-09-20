@@ -27,7 +27,7 @@
             <li>
               <a href="{{ url_for('assessment_form') }}">Assessment Form</a>
             </li>
-            <li><a href="#">Book Consultation</a></li>
+            <li><a href="{{ url_for('booking') }}">Book Consultation</a></li>
           </ul>
           <button>
             <a href="{{ url_for('logout') }}" class="logout">Logout</a>
@@ -47,9 +47,9 @@
                     <label for="sex" class="form-label"
                       >What is your Gender?
                     </label>
-                    <select name="sex" required id="sex" class="form-select">
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
+                    <select name="Sex" required id="sex" class="form-select">
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                     </select>
                   </div>
 
@@ -58,13 +58,13 @@
                       >Do you Smoke?
                     </label>
                     <select
-                      name="smoking"
+                      name="Smoking"
                       required
                       id="smoking"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -73,30 +73,30 @@
                       >Do you drink Alcohol?</label
                     >
                     <select
-                      name="alcohol"
+                      name="AlcoholDrinking"
                       required
                       id="alcohol"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
                   <div class="mb-3">
                     <label for="stroke" class="form-label"
-                      >Have you ever had a stroke in the past?</label
+                      >Have you ever had  stroke in the past?</label
                     >
                     <select
-                      name="stroke"
+                      name="Stroke"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -105,14 +105,14 @@
                       >Do you experience difficulties in walking?</label
                     >
                     <select
-                      name="walking"
+                      name="DiffWalking"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -121,14 +121,14 @@
                       >Have you ever had a Diabetics in the past?</label
                     >
                     <select
-                      name="diabetics"
+                      name="Diabetic"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -137,14 +137,14 @@
                       >Do you engage in physical Activity or Exercise?</label
                     >
                     <select
-                      name="activities"
+                      name="PhysicalActivity"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -153,17 +153,17 @@
                       >How can you describe your General Health status?</label
                     >
                     <select
-                      name="genhealth"
+                      name="GenHealth"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="excellent">Excellent</option>
-                      <option value="vgood">Very Good</option>
-                      <option value="good">Good</option>
-                      <option value="fair">Fair</option>
-                      <option value="poor">Poor</option>
+                      <option value="Excellent">Excellent</option>
+                      <option value="Very good">Very Good</option>
+                      <option value="Good">Good</option>
+                      <option value="Fair">Fair</option>
+                      <option value="Poor">Poor</option>
                     </select>
                   </div>
 
@@ -172,14 +172,14 @@
                       >Have you ever had Asthma in the past?</label
                     >
                     <select
-                      name="asthma"
+                      name="Asthma"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -188,14 +188,14 @@
                       >Have you ever had Kidney disease in the past?</label
                     >
                     <select
-                      name="kidney"
+                      name="KidneyDisease"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -204,14 +204,14 @@
                       >Have you ever had skin cancer in the past?</label
                     >
                     <select
-                      name="cancer"
+                      name="SkinCancer"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
                       class="form-select"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
 
@@ -220,7 +220,7 @@
                       >What is the your age category?</label
                     >
                     <select
-                      name="age"
+                      name="AgeCategory"
                       required
                       id="stroke"
                       aria-labelledby="passwordHelpBlock"
@@ -248,7 +248,7 @@
                     >
                     <input
                       type="text"
-                      name="bmi"
+                      name="BMI"
                       required
                       id="inputPassword5"
                       aria-labelledby="passwordHelpBlock"
@@ -263,7 +263,7 @@
                     >
                     <input
                       type="text"
-                      name="physical_health"
+                      name="PhysicalHealth"
                       required
                       id="inputPassword5"
                       aria-labelledby="passwordHelpBlock"
@@ -279,7 +279,7 @@
                     >
                     <input
                       type="text"
-                      name="mental_health"
+                      name="MentalHealth"
                       required
                       id="inputPassword5"
                       aria-labelledby="passwordHelpBlock"
@@ -295,7 +295,7 @@
                     >
                     <input
                       type="text"
-                      name="sleep"
+                      name="SleepTime"
                       required
                       id="inputPassword5"
                       aria-labelledby="passwordHelpBlock"

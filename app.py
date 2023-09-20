@@ -1,10 +1,46 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 import sqlite3
 import os
 import bcrypt
+import pickle
+import random
+import datetime
 
 app = Flask(__name__)
 app.secret_key = os.urandom(15)
+
+# Define the ordinal_mapping dictionary here
+ordinal_mapping = {
+    'Smoking': ['No', 'Yes'],
+    'AlcoholDrinking': ['No', 'Yes'],
+    'Stroke': ['No', 'Yes'],
+    'DiffWalking': ['No', 'Yes'],
+    'Diabetic': ['No', 'No, borderline diabetes', 'Yes', 'Yes (during pregnancy)'],
+    'PhysicalActivity': ['No', 'Yes'],
+    'GenHealth': ['Fair', 'Good', 'Very good', 'Excellent', 'Poor'],
+    'Asthma': ['No', 'Yes'],
+    'KidneyDisease': ['No', 'Yes'],
+    'SkinCancer': ['No', 'Yes'],
+    'AgeCategory': ['55-59', '80 or older', '65-69', '75-79', '40-44', '70-74', '60-64', '50-54', '45-49', '18-24', '35-39', '30-34', '25-29']
+}
+
+def generate_random_consultation_date():
+    # Generate a random date between Monday (0) and Friday (4)
+    random_weekday = random.randint(0, 4)
+
+    # Generate a random time between 9am (9) and 3pm (15)
+    random_hour = random.randint(9, 15)
+
+    # Create a datetime object for the consultation date and time
+    consultation_date = datetime.datetime.now()
+    consultation_date = consultation_date.replace(hour=random_hour, minute=0, second=0, microsecond=0)
+
+    # Calculate the date of the next occurrence of the chosen weekday
+    days_until_consultation = (random_weekday - consultation_date.weekday()) % 7
+    consultation_date += datetime.timedelta(days=days_until_consultation)
+
+    return consultation_date.strftime('%A, %d %B %Y, %I:%M %p')
+
 
 # Database connection
 def get_db_connection():
@@ -206,16 +242,93 @@ def assessment_form():
         # You can access form data using request.form
 
         # Get selected dropdown values
-        sex = request.form.get('sex')
-        smoking = request.form.get('smoking')
-        alcohol = request.form.get('alcohol')
-        stroke = request.form.get('stroke')
+        Sex = request.form.get('Sex')
+        Smoking = request.form.get('Smoking')
+        AlcoholDrinking = request.form.get('AlcoholDrinking')
+        Stroke = request.form.get('Stroke')
+        DiffWalking = request.form.get("DiffWalking")
+        Diabetic = request.form.get("Diabetic")
+        PhysicalActivity = request.form.get("PhysicalActivity")
+        GenHealth = request.form.get('GenHealth')
+        Asthma = request.form.get('Asthma')
+        KidneyDisease = request.form.get('KidneyDisease')
+        SkinCancer = request.form.get('SkinCancer')
+        AgeCategory = request.form.get('AgeCategory')
+        BMI = request.form.get('BMI')
+        PhysicalHealth = request.form.get('PhysicalHealth')
+        MentalHealth = request.form.get('MentalHealth')
+        SleepTime = request.form.get('SleepTime')
 
-        # Perform prediction or any other processing based on the selected values
-        # For example, you can use a machine learning model for prediction
+        # Preprocess the input data as you did during training
+        Sex = 1 if Sex == "Male" else 0
+        BMI = float(BMI)
+        PhysicalHealth = float(PhysicalHealth)
+        MentalHealth = float(MentalHealth)
+        SleepTime = float(SleepTime)
+
+        # Ordinal encoding for other features
+        Smoking = ordinal_mapping['Smoking'].index(Smoking)
+        AlcoholDrinking = ordinal_mapping['AlcoholDrinking'].index(AlcoholDrinking)
+        Stroke = ordinal_mapping['Stroke'].index(Stroke)
+        DiffWalking = ordinal_mapping['DiffWalking'].index(DiffWalking)
+        Diabetic = ordinal_mapping['Diabetic'].index(Diabetic)
+        PhysicalActivity = ordinal_mapping['PhysicalActivity'].index(PhysicalActivity)
+        GenHealth = ordinal_mapping['GenHealth'].index(GenHealth)
+        Asthma = ordinal_mapping['Asthma'].index(Asthma)
+        KidneyDisease = ordinal_mapping['KidneyDisease'].index(KidneyDisease)
+        SkinCancer = ordinal_mapping['SkinCancer'].index(SkinCancer)
+        AgeCategory = ordinal_mapping['AgeCategory'].index(AgeCategory)
+
+        # Create a list of transformed features
+        transformed_features = [Sex, Smoking, AlcoholDrinking, Stroke, DiffWalking,
+                                Diabetic, PhysicalActivity, GenHealth, Asthma, KidneyDisease,
+                                SkinCancer, AgeCategory, BMI, PhysicalHealth, MentalHealth, SleepTime]
+
+        # Reshape the list to match the model's input shape (1, 16)
+        transformed_features = [transformed_features]
+
+        # Make prediction
+        Algorithm = pickle.load(open("model.pkl", "rb"))
+        prediction = Algorithm.predict(transformed_features)
+        if prediction == 1:
+            result = "Cardiovascular Disease predicted"
+        else:
+            result = "No Cardiovascular Disease predicted"
+
+        return render_template('predict_page.html', prediction=prediction, result=result)
 
         # After processing, you can redirect or render a different template as needed
         return redirect(url_for('user_dashboard'))
+
+@app.route('/booking', methods=['GET', 'POST'])
+def booking():
+    if request.method == 'GET':
+         return render_template('booking.html')
+    elif request.method == 'POST':
+        username = session.get('username')  # Assuming you have stored the username in the session
+        user_data = get_user_data(username)
+        consultation_date = generate_random_consultation_date()
+        state =  request.form.get('state')
+        
+        return render_template('consultation.html', user_data=user_data, state=state, date =consultation_date )
+
+        # After processing, you can redirect or render a different template as needed
+        return redirect(url_for('user_dashboard'))
+        
+
+
+# @app.route('/consultation', methods=['POST'])
+# def consultation():
+#     state = request.form.get('state')
+
+#     if state:
+#         return render_template('consultation.html', selected_state=state)
+#     else:
+#         # Handle the case when the state is not selected (e.g., show an error)
+#         flash('Please select a state.', 'danger')
+#         return render_template('booking.html')  # Return to the booking page with an error message
+
+
 
 
 if __name__ == '__main__':
