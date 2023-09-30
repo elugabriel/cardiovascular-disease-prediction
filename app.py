@@ -48,6 +48,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
 def create_tables():
     conn = get_db_connection()
     conn.execute('''CREATE TABLE IF NOT EXISTS users (
@@ -85,6 +86,14 @@ def get_user_data(username):
     conn.close()
     return user_data
 
+def get_doctor_data(username):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM doctor WHERE username = ?',  (username,))
+    doctor_data = cur.fetchone()
+    conn.close()
+    return doctor_data
+
 
 @app.route('/')
 def index():
@@ -107,10 +116,11 @@ def login():
             stored_password_hash = user['password']  # Retrieve the hashed password from the database
 
             # Check if the user is a doctor
-            cur.execute('SELECT * FROM doctor WHERE email = ?', (user['email'],))
+            cur.execute('SELECT * FROM doctor WHERE username = ?', (username,))
             doctor = cur.fetchone()
 
             if doctor is not None:
+                stored_username = doctor['username']
                 user_role = 'doctor'
             else:
                 user_role = 'user'
@@ -300,35 +310,66 @@ def assessment_form():
         # After processing, you can redirect or render a different template as needed
         return redirect(url_for('user_dashboard'))
 
+
+
+
+
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
     if request.method == 'GET':
-         return render_template('booking.html')
+        return render_template('booking.html')
     elif request.method == 'POST':
-        username = session.get('username')  # Assuming you have stored the username in the session
+        username = session.get('username')
         user_data = get_user_data(username)
-        consultation_date = generate_random_consultation_date()
-        state =  request.form.get('state')
+        state = request.form.get('state')
         
-        return render_template('consultation.html', user_data=user_data, state=state, date =consultation_date )
+        # Get a list of doctors from the selected state
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM doctor WHERE state = ?', (state,))
+        doctors = cur.fetchall()
+        conn.close()
+
+        if not doctors:
+            return "No doctors available in the selected state."
+
+        # Choose a random doctor from the list
+        random_doctor = random.choice(doctors)
+        random_doctor_id = random_doctor['id']
+
+        # Update the user's doctor_id in the database
+        user_id = session.get('user_id')
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('UPDATE users SET doctor_id = ? WHERE id = ?', (random_doctor_id, user_id))
+        conn.commit()
+        
+        # Fetch the selected doctor's information for the template context
+        cur.execute('SELECT * FROM doctor WHERE id = ?', (random_doctor_id,))
+        doctor_data = cur.fetchone()
+
+        conn.close()
+
+        consultation_date = generate_random_consultation_date()
+
+        return render_template('consultation.html', 
+                               user_data=user_data, 
+                               doctor_data=doctor_data, 
+                               state=state, 
+                               date=consultation_date)
+
+
 
         # After processing, you can redirect or render a different template as needed
         return redirect(url_for('user_dashboard'))
-        
-
-
-# @app.route('/consultation', methods=['POST'])
-# def consultation():
-#     state = request.form.get('state')
-
-#     if state:
-#         return render_template('consultation.html', selected_state=state)
-#     else:
-#         # Handle the case when the state is not selected (e.g., show an error)
-#         flash('Please select a state.', 'danger')
-#         return render_template('booking.html')  # Return to the booking page with an error message
-
-
+    
+@app.route('/doctor_profile')
+def doctor_profile():
+    username = session.get('username')
+    doctor_data = get_doctor_data(username)
+    
+    return render_template('doctor_profile.html', doctor_data=doctor_data)
+    
 
 
 if __name__ == '__main__':
