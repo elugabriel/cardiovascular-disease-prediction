@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Profile</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/user_dashboard.css') }}"
+      
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/user_profile.css') }}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+   
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <div class="dashboard-content">
+        <div class="user-profile"></div>
+        <div class="dashboard-links">
+          <ul>
+            <li><a href="{{ url_for('doctor_dashboard') }}">Dashboard</a></li>
+            <li>
+<li><a href="{{ url_for('patient_assign') }}">Patient Assigned</a></li>
+            </li>
+            <li><a href="{{ url_for('booking') }}"></a></li>
+          </ul>
+          <button>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-container">
+        <div class="profile-header"></div>
+        <div class="profile-info">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">Patient Assigned</h2>
+              <div class="container">
+                
+               
+    <ul>
+        {% for patient in patients %}
+            <li>
+                Name: {{ patient.firstname }} {{ patient.lastname }}<br>
+                Phone: {{ patient.phone }}<br>
+                Email: {{ patient.email }}<br>
+                <!-- Appointment Date: {{ patient.appointment_date }}<br> -->
+            </li>
+        {% endfor %}
+            </div>
+               
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    <!-- JavaScript function to handle printing -->
+   
+  </body>
+</html>

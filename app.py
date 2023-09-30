@@ -103,46 +103,48 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password'].encode('utf-8')  # Encode password
-        role = request.form['role']  # Get the selected role
+        password = request.form['password']
+        
+        
+
+        # Convert the user input password to bytes
+        password_bytes = password.encode('utf-8')
+
+        is_doctor = request.form['is_doctor'].lower()
 
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute('SELECT * FROM users WHERE username = ?', (username,))
-        user = cur.fetchone()
 
-        if user is not None:
-            stored_username = user['username']
-            stored_password_hash = user['password']  # Retrieve the hashed password from the database
-
-            # Check if the user is a doctor
+        if is_doctor == 'yes':
             cur.execute('SELECT * FROM doctor WHERE username = ?', (username,))
-            doctor = cur.fetchone()
-
-            if doctor is not None:
-                stored_username = doctor['username']
-                user_role = 'doctor'
-            else:
-                user_role = 'user'
-
-            if bcrypt.checkpw(password, stored_password_hash):
-                session['username'] = stored_username
-                session['role'] = user_role  # Store user's role in session
-                session['user_id'] = user['id']
-
-                # Redirect to the appropriate dashboard based on the role and selection
-                if role == 'yes':
-                    return redirect(url_for('doctor_dashboard'))
-                else:
-                    return redirect(url_for('user_dashboard'))
-            else:
-                error = 'Invalid password.'
-                return render_template('login.html', error=error)
+            user = cur.fetchone()
+            stored_username = user['username']
         else:
-            error = 'Username not found.'
+            cur.execute('SELECT * FROM users WHERE username = ?', (username,))
+            user = cur.fetchone()
+            stored_username = user['username']
+
+        conn.close()
+
+        if user is not None and bcrypt.checkpw(password_bytes, user['password']):
+            # User authentication successful
+            if is_doctor == 'yes':
+                session['username'] = stored_username
+                session['doctor_id'] = user['id']
+                session['role'] = 'doctor'
+                return redirect(url_for('doctor_dashboard'))
+            else:
+                session['username'] = stored_username
+                session['user_id'] = user['id']
+                session['role'] = 'user'
+                return redirect(url_for('user_dashboard'))
+        else:
+            error = 'Invalid username or password.'
             return render_template('login.html', error=error)
 
     return render_template('login.html')
+
+
 
 
 
@@ -369,6 +371,23 @@ def doctor_profile():
     doctor_data = get_doctor_data(username)
     
     return render_template('doctor_profile.html', doctor_data=doctor_data)
+
+@app.route('/patient_assign')
+def patient_assign():
+    # Fetch the currently logged in doctor's ID from the session
+    doctor_id = session.get('doctor_id')
+    print(f"Doctor ID: {doctor_id}")
+    
+    # Query the users table to get patients assigned to this doctor
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM users WHERE doctor_id = ?', (doctor_id,))
+    patients = cur.fetchall()
+    conn.close()
+
+    # Render the patient_assign.html template with the patient data
+    return render_template('patient_assign.html', patients=patients)
+
     
 
 
