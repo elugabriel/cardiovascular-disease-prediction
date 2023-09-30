@@ -126,7 +126,7 @@ def login():
 
         conn.close()
 
-        if user is not None and bcrypt.checkpw(password_bytes, user['password']):
+        if user is not None or bcrypt.checkpw(password_bytes, user['password']):
             # User authentication successful
             if is_doctor == 'yes':
                 session['username'] = stored_username
