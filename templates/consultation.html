@@ -40,36 +40,43 @@
       <div class="profile-container">
         <div class="profile-header"></div>
         <div class="profile-info">
-          <div class="card">
+          <h2 class="card-title">Consultation Form</h2>
+          <!-- Styling for User Data -->
+          <div class="card mb-3 user-data-card">
             <div class="card-body">
-              <h2 class="card-title">Consultation Form</h2>
-              <div class="container">
-                
-                {% if user_data %}
-                    <p>User Name: {{ user_data.firstname }} {{ user_data.lastname }}</p>
-                    <p>Phone Number: {{ user_data.phone }}</p>
-                    <p>Email: {{ user_data.email }}</p>
-                    <p>Consultation Date: {{ date }}</p>
-                    <p>State: {{ state }}</p>
-                    
-                    <h5>Assigned Doctor:</h5>
-                    <p>Doctor Name: {{ doctor_data.firstname }} {{ doctor_data.lastname }}</p>
-                    <p>Doctor Email: {{ doctor_data.email }}</p>
-                    <p>Doctor Phone: {{ doctor_data.phone }}</p>
-                    <p>Doctor Hospital: {{ doctor_data.hospital }}</p>
-                    <!-- Add more doctor information here as needed -->
-                    
-                    <!-- Add the rest of your form elements here -->
-                {% else %}
-                    <p>Please log in to access this page.</p>
-                {% endif %}
+              <h2 class="card-title">User Information</h2>
+              <!-- User data here -->
+              {% if user_data %}
+                <p>User Name: {{ user_data.firstname }} {{ user_data.lastname }}</p>
+                <p>Phone Number: {{ user_data.phone }}</p>
+                <p>Email: {{ user_data.email }}</p>
+                <p>Consultation Date: {{ date }}</p>
+                <p>State: {{ state }}</p>
 
-
-            </div>
-                
+              {% else %}
+                <p>Please log in to access this page.</p>
+              {% endif %}
             </div>
           </div>
+
+          <div class="card mb-3 assigned-doctor-card">
+            <div class="card-body">
+              <h2 class="card-title">Assigned Doctor</h2>
+              <!-- Doctor data here -->
+              <p>Doctor Name: {{ doctor_data.firstname }} {{ doctor_data.lastname }}</p>
+              <p>Doctor Email: {{ doctor_data.email }}</p>
+              <p>Doctor Phone: {{ doctor_data.phone }}</p>
+              <p>Doctor Hospital: {{ doctor_data.hospital }}</p>
+            </div>
+          </div>
+         </div>
+         <div class="d-flex justify-content-center print-btn">
+          <button class="btn btn-primary" onclick="printConsultationForm()">Print</button>
         </div>
+      </div>
+    </div> 
+
+      </div>
       </div>
     </div>
   
