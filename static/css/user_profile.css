@@ -54,14 +54,6 @@ body {
   border: 1px solid #ccc;
 }
 
-.profile-info button {
-  display: flex;
-  justify-content: center;
-  background-color: aqua;
-  margin: 20px auto;
-  cursor: pointer;
-}
-
 .user-data-card,
 .assigned-doctor-card {
   background-color: white;
