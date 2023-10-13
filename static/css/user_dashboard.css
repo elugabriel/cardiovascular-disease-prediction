@@ -4,6 +4,7 @@
 html,
 body {
   /* overflow-x: hidden; */
+  background-color: cyan;
   margin: 0;
   padding: 0;
 }
