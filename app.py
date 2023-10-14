@@ -389,7 +389,62 @@ def patient_assign():
     return render_template('patient_assign.html', patients=patients)
 
     
+from flask import flash
 
+
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    doctor_data = {}  # Provide a default empty dictionary for doctor_data
+
+    if request.method == 'POST':
+        # Handle form submission (same code as before)
+        name = request.form['name']
+        email = request.form['email']
+        message_content = request.form['message']
+        
+        # Process the form data (you can send an email to the admin, save it to a database, etc.)
+        # For example, sending an email might be done like this:
+        # if send_email(name, email, message_content):
+        #     form_submission_successful = True
+        # else:
+        #     form_submission_successful = False
+        # In this example, send_email is a function you would define to handle email sending.
+        
+        # For simplicity, let's assume the form submission is always successful
+        form_submission_successful = True
+        
+        if form_submission_successful:
+            flash("Your message was submitted successfully!", 'success')
+        else:
+            flash("There was an error submitting your message. Please try again.", 'error')
+
+        return redirect(url_for('contact'))
+
+    return render_template('contact.html', doctor_data=doctor_data)
+
+
+
+
+
+
+# Route to handle form submission
+@app.route('/submit', methods=['POST'])
+def submit():
+    if request.method == 'POST':
+        # Get form data
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+        
+        # Process the form data (you can send an email to the admin, save it to a database, etc.)
+        # For now, let's just print the data
+        print(f"Name: {name}")
+        print(f"Email: {email}")
+        print(f"Message: {message}")
+        
+        # Return a response to the user
+        return "Your message was submitted successfully!"
 
 if __name__ == '__main__':
     app.run(debug=True, port=5200)
